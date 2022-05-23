@@ -33,6 +33,21 @@ uint16_t xmodem_server_crc(uint16_t crc, uint8_t byte)
 }
 
 bool xmodem_server_rx_byte(struct xmodem_server *xdm, uint8_t byte) {
+    static uint8_t l_cancelcnt_ui8 = 0;
+
+    if (byte == XMODEM_CAN)
+    {
+        l_cancelcnt_ui8++;
+        if(l_cancelcnt_ui8 > 1)
+        {
+        xdm->state = XMODEM_STATE_FAILURE;
+        }
+    }
+    else
+    {
+        l_cancelcnt_ui8 = 0;
+    }
+
 	switch (xdm->state) {
 	case XMODEM_STATE_START:
 	case XMODEM_STATE_SOH:
