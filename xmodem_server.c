@@ -2,22 +2,6 @@
 
 #include "xmodem_server.h"
 
-/* XMODEM protocol constants */
-#define XMODEM_SOH 0x01
-#define XMODEM_STX 0x02
-#define XMODEM_EOT 0x04
-#define XMODEM_ACK 0x06
-#define XMODEM_NACK 0x15
-#define XMODEM_CAN 0x18
-
-// How many milliseconds do we have to wait for a packet to arrive before
-// we send a NAK & restart the transfer
-#define XMODEM_PACKET_TIMEOUT 1000
-
-// How many errors during the transfer before we just fail
-// TODO: Could this be configurable
-#define XMODEM_MAX_ERRORS 10
-
 static const char *state_name(xmodem_server_state state) {
 	#define XDMSTAT(a) case XMODEM_STATE_ ##a: return #a
 	switch(state) {
